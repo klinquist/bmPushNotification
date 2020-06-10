@@ -46,7 +46,6 @@ socket.on('mqtt', (msg) => {
             const lastHeard = lastHeardCache.get(lhMsg.DestinationID);
             lastHeardCache.set(lhMsg.DestinationID, new Date().getTime());
             if (!ONLY_NOTIFY_IF_NO_TRANSMISSIONS_FOR_SECONDS || (ONLY_NOTIFY_IF_NO_TRANSMISSIONS_FOR_SECONDS && (!lastHeard || new Date().getTime() - lastHeard > ONLY_NOTIFY_IF_NO_TRANSMISSIONS_FOR_SECONDS * 1000))) {
-                lastHeardCache.set(lhMsg.DestinationID, new Date().getTime());
                 let talkerAlias = '';
                 if (lhMsg.TalkerAlias) {
                     talkerAlias = `(${lhMsg.TalkerAlias.replace(lhMsg.SourceCall, '').trim()}) `;
