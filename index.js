@@ -3,7 +3,7 @@ const TALK_GROUPS_TO_MONITOR = [3100];
 const ONLY_NOTIFY_IF_NO_TRANSMISSIONS_FOR_SECONDS = 900;  // 0 = don't use this feature
 const async = require('async');
 
-//Enter your pushbullet user key & token here... this is an array that can handle >1 object of userkey & tokens!
+//Enter your pushover (https://pushover.net/) user key & token here... this is an array that can handle >1 object of userkey & tokens!
 const pushUsers = [{
     user: 'XXX',
     token: 'XXX'
