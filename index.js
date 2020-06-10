@@ -46,8 +46,13 @@ socket.on('mqtt', (msg) => {
             const lastHeard = lastHeardCache.get(lhMsg.DestinationID);
             lastHeardCache.set(lhMsg.DestinationID, new Date().getTime());
             if (!ONLY_NOTIFY_IF_NO_TRANSMISSIONS_FOR_SECONDS || (ONLY_NOTIFY_IF_NO_TRANSMISSIONS_FOR_SECONDS && (!lastHeard || new Date().getTime() - lastHeard > ONLY_NOTIFY_IF_NO_TRANSMISSIONS_FOR_SECONDS * 1000))) {
+                lastHeardCache.set(lhMsg.DestinationID, new Date().getTime());
+                let talkerAlias = '';
+                if (lhMsg.TalkerAlias) {
+                    talkerAlias = `(${lhMsg.TalkerAlias.replace(lhMsg.SourceCall, '').trim()}) `;
+                }
                 const duration = moment.duration(0 - (new Date().getTime() - lastHeard)).humanize();
-                const msg = `Talkgroup ${lhMsg.DestinationID} - Transmission from ${lhMsg.SourceCall} lasted ${lhMsg.Stop - lhMsg.Start} seconds. The previous transmission was ${duration} ago.`;
+                const msg = `Talkgroup ${lhMsg.DestinationID} - Transmission from ${lhMsg.SourceCall} ${talkerAlias}lasted ${lhMsg.Stop - lhMsg.Start} seconds. The previous transmission was ${duration} ago.`;
                 console.log(msg);
                 pushes.forEach((push)=>{
                     push.send({
